@@ -6,6 +6,7 @@
 #include "ScreenCapture.h"
 #include "EnemyScanner.h"
 #include <thread>
+#include <chrono>
 
 bool isOn = false;
 void foo(ScreenCapture *sc) {
@@ -29,36 +30,35 @@ int main()
     ScreenCapture sc(NULL);
     EnemyScanner enemyScan(sc);
     INPUT input;
-    WORD vkey = VK_F12;
+    WORD vkey = FIRE_HOTKEY;
     input.type = INPUT_KEYBOARD;
     input.ki.wScan = MapVirtualKey(vkey, MAPVK_VK_TO_VSC);
     input.ki.time = 0;
     input.ki.dwExtraInfo = 0;
     input.ki.wVk = vkey;
     input.ki.dwFlags = 0; // there is no KEYEVENTF_KEYDOWN
-    //std::thread thread_obj(foo, &sc);
+
+    //std::thread thread_obj(foo, &sc); // multi thread for possible performance boost
+    auto last = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::system_clock::now());
+
     while (true) {
-        if (isKeyPressed(VK_F10)) {
+        auto current = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::system_clock::now());
+
+        //delay in between shots
+        if ((current - last).count() < (long) SHOOTING_DELAY)
+            Sleep((long) SHOOTING_DELAY - (current - last).count());
+        
+        if (isKeyPressed(TRIGGERBOT_HOTKEY)) {
             enemyScan.update();
             if (enemyScan.isEnemyAtCrosshair()) {
                 SendInput(1, &input, sizeof(INPUT));
                 input.ki.dwFlags = KEYEVENTF_KEYUP;
                 SendInput(1, &input, sizeof(INPUT));
                 input.ki.dwFlags = 0;
+                last = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::system_clock::now());
             }
         }
         Sleep(1);
     }
     //thread_obj.join();
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
