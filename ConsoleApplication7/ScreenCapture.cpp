@@ -1,12 +1,11 @@
 #include "ScreenCapture.h"
 
-ScreenCapture::ScreenCapture(HWND hwnd) : _hwnd(), _width(), _height(), ScreenData(NULL) {
-    _hwnd = hwnd;
-    HDC hdc = GetDC(_hwnd);
-    _width = GetDeviceCaps(hdc, HORZRES);
-    _height = GetDeviceCaps(hdc, VERTRES);
+ScreenCapture::ScreenCapture(HWND hwnd) : _width(), _height(), ScreenData(NULL) {
+    _hdc = GetDC(_hwnd);
+    _hdcTemp = CreateCompatibleDC(_hdc);
+    _width = GetDeviceCaps(_hdc, HORZRES);
+    _height = GetDeviceCaps(_hdc, VERTRES);
     ScreenData = new BYTE[4 * _width * _height];
-    ReleaseDC(NULL, hdc);
 }
 
 std::vector<int> ScreenCapture::getRGB(int x, int y) const
@@ -18,11 +17,9 @@ std::vector<int> ScreenCapture::getRGB(int x, int y) const
 
 void ScreenCapture::screenshot()
 {
-    HDC hdc = GetDC(_hwnd);
-    HDC hdcMem = CreateCompatibleDC(hdc);
-    HBITMAP hBitmap = CreateCompatibleBitmap(hdc, _width, _height);
-    SelectObject(hdcMem, hBitmap);
-    BitBlt(hdcMem, 0, 0, _width, _height, hdc, 0, 0, SRCCOPY);
+    HBITMAP hBitmap = CreateCompatibleBitmap(_hdc, _width, _height);
+    SelectObject(_hdcTemp, hBitmap);
+    BitBlt(_hdcTemp, 0, 0, _width, _height, _hdc, 0, 0, SRCCOPY);
     BITMAPINFOHEADER bmi = { 0 };
     bmi.biSize = sizeof(BITMAPINFOHEADER);
     bmi.biPlanes = 1;
@@ -31,8 +28,6 @@ void ScreenCapture::screenshot()
     bmi.biHeight = -_height;
     bmi.biCompression = BI_RGB;
     bmi.biSizeImage = 0;
-    GetDIBits(hdcMem, hBitmap, 0, _height, ScreenData, (BITMAPINFO*)&bmi, DIB_RGB_COLORS);
-    DeleteDC(hdcMem);
+    GetDIBits(_hdcTemp, hBitmap, 0, _height, ScreenData, (BITMAPINFO*)&bmi, DIB_RGB_COLORS);
     DeleteObject(hBitmap);
-    ReleaseDC(NULL, hdc);
 }

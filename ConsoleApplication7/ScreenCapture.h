@@ -7,6 +7,8 @@ class ScreenCapture
 {
 private:
 	HWND _hwnd;
+	HDC _hdc;
+	HDC _hdcTemp;
 	int _width;
 	int _height;
 
@@ -20,6 +22,10 @@ public:
 
 	int getHeight() const {
 		return _height;
+	}
+	~ScreenCapture() {
+		ReleaseDC(NULL, _hdc);
+		DeleteDC(_hdcTemp);
 	}
 
 	std::vector<int> getRGB(int x, int y) const;
