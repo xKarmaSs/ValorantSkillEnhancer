@@ -1,6 +1,6 @@
 #pragma once
 #include "windows.h"
-#include "Setttings.h"
+#include "Settings.h"
 #include "ScreenCapture.h"
 #include <vector>
 

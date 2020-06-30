@@ -11,10 +11,12 @@ private:
 	HDC _hdcTemp;
 	int _width;
 	int _height;
+	long _lastSSTime;
+	int _delay;
 
 public:
 	BYTE* ScreenData;
-	ScreenCapture(HWND hwnd);
+	ScreenCapture(HWND hwnd, int delay);
 	void screenshot();
 	int getWidth() const {
 		return _width;

@@ -1,18 +1,20 @@
 // ConsoleApplication7.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
 
 #include <iostream>
-#include "windows.h"
-#include "ScreenCapture.h"
-#include "EnemyScanner.h"
 #include <thread>
 #include <chrono>
 
+#include "windows.h"
+#include "ScreenCapture.h"
+#include "EnemyScanner.h"
+#include "Settings.h"
+#include "Helpers.h"
+
 bool isOn = false;
-void foo(ScreenCapture *sc) {
+void foo(EnemyScanner *sc) {
     while (true) {
         if (isOn) {
-            sc->screenshot();
+            sc->update();
         }
         Sleep(1);
     }
@@ -27,7 +29,7 @@ bool isKeyPressed(int key) {
 
 int main()
 {
-    ScreenCapture sc(NULL);
+    ScreenCapture sc(NULL, 1000 / SS_PER_SEC);
     EnemyScanner enemyScan(sc);
     INPUT input;
     WORD vkey = FIRE_HOTKEY;
@@ -38,26 +40,30 @@ int main()
     input.ki.wVk = vkey;
     input.ki.dwFlags = 0; // there is no KEYEVENTF_KEYDOWN
 
-    //std::thread thread_obj(foo, &sc); // multi thread for possible performance boost
-    auto last = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::system_clock::now());
-
+    //std::thread thread_obj(foo, &enemyScan); // multi thread for possible performance boost
+    long last = getUnixTime();
+   
     while (true) {
-        auto current = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::system_clock::now());
+        long current = getUnixTime();
 
         //delay in between shots
-        if ((current - last).count() < (long) SHOOTING_DELAY)
-            Sleep((long) SHOOTING_DELAY - (current - last).count());
+        if (current < (long) SHOOTING_DELAY)
+            Sleep((long) SHOOTING_DELAY - (current - last));
         
+        isOn = false;
         if (isKeyPressed(TRIGGERBOT_HOTKEY)) {
+            isOn = true;
             enemyScan.update();
             if (enemyScan.isEnemyAtCrosshair()) {
+                Sleep(TRIGGER_DELAY);
                 SendInput(1, &input, sizeof(INPUT));
                 input.ki.dwFlags = KEYEVENTF_KEYUP;
                 SendInput(1, &input, sizeof(INPUT));
                 input.ki.dwFlags = 0;
-                last = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::system_clock::now());
+                last = getUnixTime();
             }
-        }
+        } 
+
         Sleep(1);
     }
     //thread_obj.join();

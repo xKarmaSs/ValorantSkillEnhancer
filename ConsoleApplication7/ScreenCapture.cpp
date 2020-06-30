@@ -1,11 +1,13 @@
 #include "ScreenCapture.h"
+#include "Helpers.h"
 
-ScreenCapture::ScreenCapture(HWND hwnd) : _width(), _height(), ScreenData(NULL) {
+ScreenCapture::ScreenCapture(HWND hwnd, int delay) : _width(), _height(), ScreenData(NULL) {
     _hdc = GetDC(_hwnd);
     _hdcTemp = CreateCompatibleDC(_hdc);
     _width = GetDeviceCaps(_hdc, HORZRES);
     _height = GetDeviceCaps(_hdc, VERTRES);
     ScreenData = new BYTE[4 * _width * _height];
+    _delay = delay;
 }
 
 std::vector<int> ScreenCapture::getRGB(int x, int y) const
@@ -17,6 +19,10 @@ std::vector<int> ScreenCapture::getRGB(int x, int y) const
 
 void ScreenCapture::screenshot()
 {
+    if (getUnixTime() - _lastSSTime < _delay)
+        Sleep(_delay - getUnixTime() + _lastSSTime);
+
+    _lastSSTime = getUnixTime();
     HBITMAP hBitmap = CreateCompatibleBitmap(_hdc, _width, _height);
     SelectObject(_hdcTemp, hBitmap);
     BitBlt(_hdcTemp, 0, 0, _width, _height, _hdc, 0, 0, SRCCOPY);

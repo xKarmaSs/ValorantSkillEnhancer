@@ -29,13 +29,13 @@
     <ClInclude Include="EnemyScanner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Setttings.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ScreenCapture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Helpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
