@@ -4,7 +4,7 @@
 #define SHOOTING_DELAY 50 // delay between shots
 #define TRIGGER_DELAY 1 // delay after crossing an enemy
 #define HEAD_OFFSET_X 2
-#define HEAD_OFFSET_Y 3
+#define HEAD_OFFSET_Y 2
 #define FIRE_HOTKEY VK_F12
 #define TRIGGERBOT_HOTKEY VK_F10
 #define AIMBOT_HOTKEY VK_MENU
@@ -16,9 +16,9 @@
 #define ADRUINO_MOUSE_CLICK_SIGNAL_1 0x80
 #define ADRUINO_MOUSE_CLICK_SIGNAL_2 0x80
 
-const int RED_RANGE[] = {200, 255};
+const int RED_RANGE[] = {150, 255};
 const int GREEN_RANGE[] = { 0, 200 };
-const int BLUE_RANGE[] = { 200, 255 };
+const int BLUE_RANGE[] = { 150, 255 };
 
 const float RED_DOMINANCE_THRES[] = { 0.8, 1.0 };
 const float GREEN_DOMINANCE_THRES[] = { 0.0, 0.8 };

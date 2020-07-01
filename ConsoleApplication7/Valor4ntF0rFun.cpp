@@ -30,7 +30,7 @@ bool isKeyPressed(int key) {
 
 int main()
 {
-    ScreenCapture sc(NULL, 1000 / SS_PER_SEC);
+    ScreenCapture sc(NULL, 1000 / SS_PER_SEC, AIMBOT_FOV);
     AdruinoMouseController mouseController(ADRUINO_PORT);
     EnemyScanner enemyScan(sc);
     //INPUT input;

@@ -13,6 +13,7 @@ private:
 	int _height;
 	long _lastSSTime;
 	int _delay;
+	int _dimension;
 
 public:
 	BYTE* ScreenData;
@@ -29,6 +30,8 @@ public:
 		ReleaseDC(NULL, _hdc);
 		DeleteDC(_hdcTemp);
 	}
+
+	ScreenCapture(HWND hwnd, int delay, int FOV);
 
 	std::vector<int> getRGB(int x, int y) const;
 
