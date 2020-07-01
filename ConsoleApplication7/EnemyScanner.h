@@ -21,6 +21,12 @@ public:
 
 	bool isEnemyOutline(const std::vector<int>& pixel) const;
 
+	bool isEnemyOutlineNeighbor(const std::vector<int>& pixel, const std::vector<std::vector<int>>& neighborPixels) const;
+
+	std::vector<int> findClosestEnemyHead() const;
+
+	std::vector<std::vector<int>> getNeighboringPixels(int coordx, int coordy) const;
+
 	bool isEnemyAtCrosshair() const;
 
 

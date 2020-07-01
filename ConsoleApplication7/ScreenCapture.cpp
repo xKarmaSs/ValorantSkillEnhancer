@@ -1,5 +1,6 @@
 #include "ScreenCapture.h"
 #include "Helpers.h"
+#include "Settings.h"
 
 ScreenCapture::ScreenCapture(HWND hwnd, int delay) : _width(), _height(), ScreenData(NULL) {
     _hdc = GetDC(_hwnd);
@@ -23,9 +24,11 @@ void ScreenCapture::screenshot()
         Sleep(_delay - getUnixTime() + _lastSSTime);
 
     _lastSSTime = getUnixTime();
+    int centerX = getWidth() / 2;
+    int centerY = getHeight() / 2;
     HBITMAP hBitmap = CreateCompatibleBitmap(_hdc, _width, _height);
     SelectObject(_hdcTemp, hBitmap);
-    BitBlt(_hdcTemp, 0, 0, _width, _height, _hdc, 0, 0, SRCCOPY);
+    BitBlt(_hdcTemp, centerX - AIMBOT_FOV, centerY - AIMBOT_FOV, AIMBOT_FOV*2, AIMBOT_FOV*2, _hdc, centerX - AIMBOT_FOV, centerY - AIMBOT_FOV, SRCCOPY);
     BITMAPINFOHEADER bmi = { 0 };
     bmi.biSize = sizeof(BITMAPINFOHEADER);
     bmi.biPlanes = 1;

@@ -149,12 +149,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="EnemyScanner.cpp" />
+    <ClCompile Include="AdruinoMouseController.cpp" />
+    <ClCompile Include="SerialPort.cpp" />
     <ClCompile Include="Valor4ntF0rFun.cpp" />
     <ClCompile Include="ScreenCapture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EnemyScanner.h" />
+    <ClInclude Include="SerialPort.h" />
     <ClInclude Include="Helpers.h" />
+    <ClInclude Include="AdruinoMouseController.h" />
     <ClInclude Include="ScreenCapture.h" />
     <ClInclude Include="Settings.h" />
   </ItemGroup>
