@@ -72,7 +72,7 @@ int main()
         if (isKeyPressed(AIMBOT_HOTKEY)) {
             std::vector<int> enemyHead = enemyScan.findClosestEnemyHead();
             if (enemyHead[0] != -1) {
-                mouseController.moveTowards(enemyHead[0], enemyHead[1]);
+                mouseController.moveTo(enemyHead[0], enemyHead[1]);
             }
         }
 

@@ -14,6 +14,4 @@ public:
 
 	void click();
 
-	void moveTowards(int x, int y);
-
 }; 
