@@ -9,6 +9,7 @@ private:
 	HWND _hwnd;
 	HDC _hdc;
 	HDC _hdcTemp;
+	HBITMAP _bmTemp;
 	int _width;
 	int _height;
 	long _lastSSTime;
@@ -29,6 +30,7 @@ public:
 	~ScreenCapture() {
 		ReleaseDC(NULL, _hdc);
 		DeleteDC(_hdcTemp);
+		DeleteObject(_bmTemp);
 	}
 
 	ScreenCapture(HWND hwnd, int delay, int FOV);
