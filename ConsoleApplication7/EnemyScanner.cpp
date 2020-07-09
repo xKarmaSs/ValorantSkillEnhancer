@@ -3,7 +3,7 @@
 #include "EnemyScanner.h"
 #include "Helpers.h"
 
-EnemyScanner::EnemyScanner(ScreenCapture& sc) {
+EnemyScanner::EnemyScanner(ScreenCaptureBase& sc) {
 	_sc = &sc;
 }
 

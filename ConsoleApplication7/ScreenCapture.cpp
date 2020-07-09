@@ -2,7 +2,7 @@
 #include "Helpers.h"
 #include "Settings.h"
 
-ScreenCapture::ScreenCapture(HWND hwnd, int delay, int dimension) : _width(), _height(), ScreenData(NULL) {
+ScreenCapture::ScreenCapture(HWND hwnd, int delay, int dimension) : ScreenCaptureBase(), _width(), _height() {
     _hdc = GetDC(_hwnd);
     _hdcTemp = CreateCompatibleDC(_hdc);
     _width = GetDeviceCaps(_hdc, HORZRES);

@@ -6,10 +6,10 @@
 
 class EnemyScanner {
 private:
-	ScreenCapture* _sc;
+	ScreenCaptureBase* _sc;
 
 public:
-	EnemyScanner(ScreenCapture& sc);
+	EnemyScanner(ScreenCaptureBase& sc);
 
 	void update() {
 		if (!_sc)

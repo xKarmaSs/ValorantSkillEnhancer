@@ -1,10 +1,10 @@
 #pragma once
 
-#define TRIGGERBOT_WINDOW 5 // within 5 pixels radius of the crosshair
+#define TRIGGERBOT_WINDOW 3 // within 5 pixels radius of the crosshair
 #define SHOOTING_DELAY 50 // delay between shots
-#define TRIGGER_DELAY 10 // delay after crossing an enemy
+#define TRIGGER_DELAY 1 // delay after crossing an enemy
 #define HEAD_OFFSET_X 2
-#define HEAD_OFFSET_Y 3
+#define HEAD_OFFSET_Y 4
 #define FIRE_HOTKEY VK_F12
 #define TRIGGERBOT_HOTKEY VK_F10
 #define AIMBOT_HOTKEY VK_MENU
